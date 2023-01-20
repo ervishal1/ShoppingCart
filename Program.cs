@@ -1,9 +1,23 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Infrastructure;
+using ShoppingCart.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Dbconnection")));
+
+builder.Services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+builder.Services.Configure<IdentityOptions>(Options =>
+{
+    Options.Password.RequiredLength = 4;
+    Options.Password.RequireNonAlphanumeric = false;
+    Options.Password.RequireDigit = false;
+    Options.Password.RequireLowercase = false;
+    Options.Password.RequireUppercase = false;
+    Options.User.RequireUniqueEmail = true;
+
+});
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -35,6 +49,7 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
