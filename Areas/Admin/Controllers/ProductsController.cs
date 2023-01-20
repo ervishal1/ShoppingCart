@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Infrastructure;
@@ -6,6 +7,7 @@ using ShoppingCart.Models;
 
 namespace ShoppingCart.Areas.Admin.Controllers
 {
+	[Authorize]
 	[Area("Admin")]
 	public class ProductsController : Controller
 	{
